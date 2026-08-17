@@ -4,30 +4,52 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
+import pages.InventoryPage;
 import pages.LoginPage;
+import testdata.LoginDataProvider;
 import utils.ConfigReader;
 
 public class LoginTest extends BaseTest {
 
-    @Test
+    @Test(priority = 1)
     public void verifyValidLogin() {
 
-        // Navigate to Application
         page.navigate(ConfigReader.getProperty("base.url"));
 
-        // Create Page Object
         LoginPage loginPage = new LoginPage(page);
 
-        // Perform Login
         loginPage.login(
                 ConfigReader.getProperty("username"),
                 ConfigReader.getProperty("password"));
 
-        // Verify Login
-        Assert.assertEquals(
-                page.url(),
-                "https://www.saucedemo.com/inventory.html");
+        InventoryPage inventoryPage = new InventoryPage(page);
 
-        System.out.println("Login Successful");
+        Assert.assertTrue(
+                inventoryPage.isInventoryPageDisplayed());
+
     }
+
+    @Test(
+            priority = 2,
+            dataProvider = "invalidLoginData",
+            dataProviderClass = LoginDataProvider.class)
+
+    public void verifyInvalidLogin(
+
+            String username,
+            String password,
+            String expectedError) {
+
+        page.navigate(ConfigReader.getProperty("base.url"));
+
+        LoginPage loginPage = new LoginPage(page);
+
+        loginPage.login(username, password);
+
+        Assert.assertEquals(
+                loginPage.getErrorMessage(),
+                expectedError);
+
+    }
+
 }

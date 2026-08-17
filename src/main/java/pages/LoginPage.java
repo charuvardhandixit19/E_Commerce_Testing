@@ -6,7 +6,6 @@ public class LoginPage {
 
     private Page page;
 
-
     // Locators
     private String usernameInput = "#user-name";
     private String passwordInput = "#password";
@@ -16,11 +15,19 @@ public class LoginPage {
     public LoginPage(Page page) {
         this.page = page;
     }
-    
-    public void login(String username, String password){
+
+    public void login(String username, String password) {
+
         page.locator(usernameInput).fill(username);
         page.locator(passwordInput).fill(password);
         page.locator(loginButton).click();
 
     }
+
+    public String getErrorMessage() {
+
+        return page.locator(errorMessage).textContent();
+
+    }
+
 }
