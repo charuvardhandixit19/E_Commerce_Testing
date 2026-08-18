@@ -11,16 +11,28 @@ public class InventoryPage {
     // =========================
 
     private String pageTitle = "[data-test='title']";
+
     private String productItems = ".inventory_item";
     private String productNames = ".inventory_item_name";
     private String productPrices = ".inventory_item_price";
-    private String productImages = ".inventory_item_img";
+    private String productImages = ".inventory_item_img img";
     private String productDescriptions = ".inventory_item_desc";
+
     private String addToCartButtons = "button[id^='add-to-cart']";
     private String removeButtons = "button[id^='remove']";
+
     private String cartBadge = ".shopping_cart_badge";
     private String cartButton = ".shopping_cart_link";
-    private String sortDropdown = "[data-test='product-sort-container']";
+
+    private String sortDropdown =
+            "[data-test='product-sort-container']";
+
+    private String productLinks =
+            ".inventory_item_name";
+
+    private String backToProductsButton =
+            "[data-test='back-to-products']";
+
 
     // =========================
     // Constructor
@@ -29,6 +41,7 @@ public class InventoryPage {
     public InventoryPage(Page page) {
         this.page = page;
     }
+
 
     // =========================
     // INV-001
@@ -42,9 +55,10 @@ public class InventoryPage {
                 .equals("Products");
     }
 
+
     // =========================
     // INV-002
-    // Get Product Count
+    // Product Count
     // =========================
 
     public int getProductCount() {
@@ -52,9 +66,10 @@ public class InventoryPage {
         return page.locator(productItems).count();
     }
 
+
     // =========================
     // INV-003
-    // Verify Product Images
+    // Product Images
     // =========================
 
     public int getProductImageCount() {
@@ -62,9 +77,10 @@ public class InventoryPage {
         return page.locator(productImages).count();
     }
 
+
     // =========================
     // INV-004
-    // Verify Product Descriptions
+    // Product Descriptions
     // =========================
 
     public int getProductDescriptionCount() {
@@ -72,9 +88,10 @@ public class InventoryPage {
         return page.locator(productDescriptions).count();
     }
 
+
     // =========================
     // INV-005
-    // Verify Add To Cart Buttons
+    // Add To Cart Buttons
     // =========================
 
     public int getAddToCartButtonCount() {
@@ -82,15 +99,17 @@ public class InventoryPage {
         return page.locator(addToCartButtons).count();
     }
 
+
     // =========================
     // INV-006
-    // Verify Product Prices
+    // Product Prices
     // =========================
 
     public int getProductPriceCount() {
 
         return page.locator(productPrices).count();
     }
+
 
     // =========================
     // INV-007
@@ -102,6 +121,7 @@ public class InventoryPage {
         page.locator("#add-to-cart-" + productId).click();
     }
 
+
     // =========================
     // INV-008
     // Verify Remove Button
@@ -109,8 +129,10 @@ public class InventoryPage {
 
     public boolean isRemoveButtonDisplayed(String productId) {
 
-        return page.locator("#remove-" + productId).isVisible();
+        return page.locator("#remove-" + productId)
+                .isVisible();
     }
+
 
     // =========================
     // INV-009
@@ -122,9 +144,9 @@ public class InventoryPage {
         page.locator("#remove-" + productId).click();
     }
 
+
     // =========================
-    // INV-013
-    // Get Cart Count
+    // Cart Count
     // =========================
 
     public int getCartCount() {
@@ -138,6 +160,7 @@ public class InventoryPage {
         );
     }
 
+
     // =========================
     // Cart Navigation
     // =========================
@@ -147,12 +170,36 @@ public class InventoryPage {
         page.locator(cartButton).click();
     }
 
+
     // =========================
     // Sorting
     // =========================
 
     public void sortProducts(String option) {
 
-        page.locator(sortDropdown).selectOption(option);
+        page.locator(sortDropdown)
+                .selectOption(option);
+    }
+
+
+    // =========================
+    // Product Details
+    // =========================
+
+    public void clickProduct(String productName) {
+
+        page.getByText(productName, new Page.GetByTextOptions()
+                .setExact(true))
+                .click();
+    }
+
+
+    // =========================
+    // Back To Products
+    // =========================
+
+    public void clickBackToProducts() {
+
+        page.locator(backToProductsButton).click();
     }
 }
